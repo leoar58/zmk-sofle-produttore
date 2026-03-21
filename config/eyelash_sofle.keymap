@@ -14,22 +14,21 @@
 // ║  Eyelash Sofle — Keymap personalizzato                          ║
 // ║  Layout: US International (Windows)                             ║
 // ║                                                                  ║
-// ║  Layer 0 — BASE        (sempre attivo)                          ║
-// ║  Layer 1 — FUNZIONI    (momentaneo, tieni L1)                   ║
-// ║             Mouse, dead keys accenti, simboli, navigazione      ║
-// ║  Layer 2 — SISTEMA     (toggle, premi L2 per att./disatt.)      ║
-// ║             F-keys, numpad, BT, RGB, sistema                    ║
+// ║  Layer 0 — BASE        (sempre attivo)   → LED spenti           ║
+// ║  Layer 1 — FUNZIONI    (tieni L1)        → breathe azzurro      ║
+// ║  Layer 2 — SISTEMA     (toggle L2)       → breathe rosso        ║
 // ╚══════════════════════════════════════════════════════════════════╝
 //
-// Accenti con US International (dead keys nativi):
-//   ` poi a/e/i/o/u → à/è/ì/ò/ù
-//   ' poi e         → é
-//   ~ poi n         → ñ
-//   ` poi A/E/I/O/U → À/È/Ì/Ò/Ù  (con Shift sulla vocale)
+// Tasti pollice sx (interno→esterno): L1, SPACE, CTRL, ALT, GUI
+// Tasti pollice dx (interno→esterno): L2, ENTER, RCTRL, BSPC, DEL
 //
-// Dead key ` è su L1+ESC
-// Dead key ' è già nel layer 0 (tasto ' dopo ;)
-// Dead key ~ è su L1+Shift+ESC (~ = Shift+`)
+// Accenti con US International (dead keys nativi):
+//   ` poi a/e/i/o/u → à/è/ì/ò/ù  |  ' poi e → é  |  ~ poi n → ñ
+//   Dead key ` = L1+ESC  |  Dead key ~ = L1+Shift+ESC
+//
+// Layer 1 navigazione:
+//   Y=PG UP  U=Home  I=↑  O=End
+//   H=PG DN  J=←    K=↓  L=→
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
@@ -60,6 +59,9 @@
     keymap {
         compatible = "zmk,keymap";
 
+        // ══════════════════════════════════════════════════════════
+        // LAYER 0 — BASE  →  LED spenti all'attivazione
+        // ══════════════════════════════════════════════════════════
         layer0 {
             display-name = "BASE";
             bindings = <
@@ -67,23 +69,31 @@
 &kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
 &kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp APOS
 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp B     &trans   &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &mo 1     &trans   &tog 2    &kp RET   &kp RCTRL &kp BSPC  &kp DEL
+&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &mo 1     &tog 2   &kp RET   &kp RCTRL &kp BSPC  &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
+        // ══════════════════════════════════════════════════════════
+        // LAYER 1 — FUNZIONI  →  breathe azzurro (HSB 180,100,5)
+        // Hue 180 = azzurro  |  Sat 100%  |  Bri 5% (minimo)
+        // ══════════════════════════════════════════════════════════
         layer1 {
             display-name = "FUNZIONI";
             bindings = <
 &kp GRAVE      &kp C_VOL_DN    &kp C_VOL_UP    &kp C_PP        &kp C_PREV      &kp C_NEXT      &trans   &kp INS         &kp PAUSE_BREAK &trans          &kp LBKT        &kp RBKT        &trans
-&trans         &mkp MB4        &msc SCRL_UP    &mkp MB5        &trans          &trans          &trans   &kp HOME        &kp UP          &kp END         &kp PG_UP       &kp LS(EQUAL)   &kp MINUS
-&trans         &mkp MB2        &mkp MB3        &mkp MB1        &kp LG(TAB)     &trans          &trans   &kp LEFT        &kp DOWN        &kp RIGHT       &kp PG_DN       &kp GRAVE       &trans
+&trans         &mkp MB4        &msc SCRL_UP    &mkp MB5        &trans          &trans          &trans   &kp PG_UP       &kp HOME        &kp UP          &kp END         &kp LS(EQUAL)   &kp MINUS
+&trans         &mkp MB2        &mkp MB3        &mkp MB1        &kp LG(TAB)     &trans          &trans   &kp PG_DN       &kp LEFT        &kp DOWN        &kp RIGHT       &kp GRAVE       &trans
 &trans         &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_RIGHT &trans          &trans          &trans   &trans          &trans          &trans          &trans          &trans          &trans
 &trans         &trans          &trans          &trans          &trans          &trans          &trans   &trans          &trans          &trans          &trans          &trans
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
+        // ══════════════════════════════════════════════════════════
+        // LAYER 2 — SISTEMA  →  breathe rosso (HSB 0,100,5)
+        // Hue 0 = rosso  |  Sat 100%  |  Bri 5% (minimo)
+        // ══════════════════════════════════════════════════════════
         layer2 {
             display-name = "SISTEMA";
             bindings = <
@@ -91,9 +101,15 @@
 &bt BT_CLR     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3     &bt BT_SEL 4    &trans   &kp KP_MULTIPLY &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_PLUS     &kp F12
 &trans         &rgb_ug RGB_TOG &rgb_ug RGB_BRI &rgb_ug RGB_EFF &trans           &trans          &trans   &kp KP_DIVIDE   &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_MINUS    &trans
 &sys_reset     &rgb_ug RGB_HUI &rgb_ug RGB_BRD &rgb_ug RGB_EFR &trans           &soft_off       &trans   &kp KP_N0       &kp KP_N1       &kp KP_N2       &kp KP_N3       &trans          &kp RSHFT
-&trans         &trans          &trans          &kp SPACE       &mo 1            &trans          &trans   &tog 2          &kp RET         &kp KP_N0       &kp BSPC        &kp DEL
+&trans         &trans          &trans          &mo 1           &kp SPACE        &trans          &trans   &tog 2          &kp RET         &kp KP_N0       &kp BSPC        &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
     };
 };
+
+// Nota: per i LED breathe per layer, aggiungi nel file
+// config/eyelash_sofle.conf:
+//
+// CONFIG_ZMK_RGB_UNDERGLOW_EFF_START=1  (1 = breathe)
+// CONFIG_ZMK_RGB_UNDERGLOW_BRT_START=5  (5% luminosità minima)
