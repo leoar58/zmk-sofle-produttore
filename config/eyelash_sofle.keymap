@@ -22,11 +22,11 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 //
 // Accenti su Windows inglese US:
-//   à = APOS         è = LBKT         é = LS(LBKT)
+//   à = APOS         è = LBKT         é = macro ALT+130
 //   ì = EQUAL        ò = SEMI         ù = BSLH
-//   À = LS(APOS)     È = LS(LBKT)*    É = LS(LBKT) (stesso tasto+shift)
+//   À = LS(APOS)     È = LS(LBKT)     É = macro ALT+144
 //   Ì = LS(EQUAL)    Ò = LS(SEMI)     Ù = LS(BSLH)
-//   ñ/Ñ via macro ALT+164 / ALT+165
+//   ñ = macro ALT+164               Ñ = macro ALT+165
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
@@ -47,48 +47,48 @@
 
 / {
     macros {
-        // ñ minuscola — ALT+164 su tastierino numerico
-        mac_ntilde: mac_ntilde {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LALT>
-                , <&macro_tap &kp KP_N1 &kp KP_N6 &kp KP_N4>
-                , <&macro_release &kp LALT>;
-            label = "MAC_NTILDE";
-        };
-
-        // Ñ maiuscola — ALT+165
-        mac_Ntilde: mac_Ntilde {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LALT>
-                , <&macro_tap &kp KP_N1 &kp KP_N6 &kp KP_N5>
-                , <&macro_release &kp LALT>;
-            label = "MAC_NTILDE_UP";
-        };
-
         // é minuscola — ALT+130
-        mac_eacc: mac_eacc {
+        mac_e_acc: mac_e_acc {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
                 = <&macro_press &kp LALT>
                 , <&macro_tap &kp KP_N1 &kp KP_N3 &kp KP_N0>
                 , <&macro_release &kp LALT>;
-            label = "MAC_EACC";
+            label = "MAC_E_ACC";
         };
 
         // É maiuscola — ALT+144
-        mac_Eacc: mac_Eacc {
+        mac_e_acc_up: mac_e_acc_up {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
                 = <&macro_press &kp LALT>
                 , <&macro_tap &kp KP_N1 &kp KP_N4 &kp KP_N4>
                 , <&macro_release &kp LALT>;
-            label = "MAC_EACC_UP";
+            label = "MAC_E_ACC_UP";
+        };
+
+        // ñ minuscola — ALT+164
+        mac_n_tilde: mac_n_tilde {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LALT>
+                , <&macro_tap &kp KP_N1 &kp KP_N6 &kp KP_N4>
+                , <&macro_release &kp LALT>;
+            label = "MAC_N_TILDE";
+        };
+
+        // Ñ maiuscola — ALT+165
+        mac_n_tilde_up: mac_n_tilde_up {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LALT>
+                , <&macro_tap &kp KP_N1 &kp KP_N6 &kp KP_N5>
+                , <&macro_release &kp LALT>;
+            label = "MAC_N_TILDE_UP";
         };
     };
 
@@ -107,11 +107,13 @@
         // LAYER 0 — BASE
         // ══════════════════════════════════════════════════════════
         //
-        // ESC  1    2    3    4    5  │  6    7    8    9    0   BSPC
-        // TAB  Q    W    E    R    T  │  Y    U    I    O    P    \|
-        // CAPS A    S    D    F    G  │  H    J    K    L    ;    '"
-        // SHF  Z    X    C    V    B  │  N    M    ,    .    /   SHF
-        //  GUI ALT CTRL  L1  SPC  │  ENT  L2  RCTL BSPC DEL
+        // ESC  1    2    3    4    5  [─]  6    7    8    9    0   BSPC
+        // TAB  Q    W    E    R    T  [─]  Y    U    I    O    P    \|
+        // CAPS A    S    D    F    G  [─]  H    J    K    L    ;    '"
+        // SHF  Z    X    C    V    B  [─]  N    M    ,    .    /   SHF
+        //  GUI ALT CTRL  L1  SPC  [─] [─] ENT  L2  RCTL BSPC DEL
+        //
+        // Nota: [─] = tasto fisicamente inesistente sulla tastiera
         //
         layer0 {
             display-name = "BASE";
@@ -129,26 +131,26 @@
         // LAYER 1 — FUNZIONI (momentaneo — tieni L1)
         // ══════════════════════════════════════════════════════════
         //
-        // `    VOL- VOL+ ▶/⏸  ⏮    ⏭   │ INS PAUSE  ─    [    ]   BSPC
-        // TAB  MB5  SCR↑ MB4   ─    é   │  è   ù    ì    ò    +    -
-        // CAPS MB1  MB3  MB2  ⊞Tab  ─   │  à  Home   ↑   End  PGU   `
-        // SHF  SCR← SCR↓ SCR→  ─    ─   │  ñ   ←    ↓    →   PGD  SHF
-        //  GUI ALT CTRL  ●L1  SPC  │  ENT  L2  RCTL BSPC DEL
+        // `   VOL- VOL+ ▶/⏸  ⏮   ⏭  [─] INS PAUSE  ─    [    ]   BSPC
+        // TAB MB5  SCR↑ MB4   ─    é  [─]  è   ù    ì    ò    +    -
+        // CAPS MB1 MB3  MB2  ⊞Tab  ─  [─]  à  Home   ↑   End  PGU   `
+        // SHF SCR← SCR↓ SCR→  ─    ─  [─]  ñ   ←    ↓    →   PGD  SHF
+        //  GUI ALT CTRL ●L1  SPC  [─] [─] ENT  L2  RCTL BSPC DEL
         //
-        // Shift su L1:
-        //  ~   ─    ─    ─    ─    ─   │  ─    ─    ─    {    }    ─
-        //  ─   ─    ─    ─    ─    É   │  È    Ù    Ì    Ò    *    _
-        //  ─   ─    ─    ─    ─    ─   │  À   ─    ─    ─    ─     ~
-        //  ─   ─    ─    ─    ─    ─   │  Ñ   ─    ─    ─    ─    ─
+        // Con Shift:
+        //  ~    ─    ─    ─    ─    ─  [─]  ─    ─    ─    {    }   BSPC
+        //  ─    ─    ─    ─    ─    É  [─]  È    Ù    Ì    Ò    *    _
+        //  ─    ─    ─    ─    ─    ─  [─]  À    ─    ─    ─    ─    ~
+        //  ─    ─    ─    ─    ─    ─  [─]  Ñ    ─    ─    ─    ─    ─
         //
         layer1 {
             display-name = "FUNZIONI";
             bindings = <
-&kp GRAVE      &kp C_VOL_DN   &kp C_VOL_UP   &kp C_PP       &kp C_PREV     &kp C_NEXT     &trans   &kp INS        &kp PAUSE_BREAK &trans         &kp LBKT       &kp RBKT       &trans
-&trans         &mkp MB5       &msc SCRL_UP   &mkp MB4       &trans         &mac_eacc      &trans   &kp LBKT       &kp BSLH        &kp EQUAL      &kp SEMI       &kp LS(EQUAL)  &kp MINUS
-&trans         &mkp MB1       &mkp MB3       &mkp MB2       &kp LG(TAB)    &trans         &trans   &kp APOS       &kp HOME        &kp UP         &kp END        &kp PG_UP      &kp GRAVE
-&trans         &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_RIGHT &trans        &trans         &trans   &mac_ntilde    &kp LEFT        &kp DOWN       &kp RIGHT      &kp PG_DN      &trans
-&trans         &trans         &trans         &trans         &trans         &trans         &trans   &trans         &trans          &trans         &trans         &trans
+&kp GRAVE      &kp C_VOL_DN    &kp C_VOL_UP    &kp C_PP        &kp C_PREV      &kp C_NEXT      &trans   &kp INS         &kp PAUSE_BREAK &trans          &kp LBKT        &kp RBKT        &trans
+&trans         &mkp MB5        &msc SCRL_UP    &mkp MB4        &trans          &mac_e_acc      &trans   &kp LBKT        &kp BSLH        &kp EQUAL       &kp SEMI        &kp LS(EQUAL)   &kp MINUS
+&trans         &mkp MB1        &mkp MB3        &mkp MB2        &kp LG(TAB)     &trans          &trans   &kp APOS        &kp HOME        &kp UP          &kp END         &kp PG_UP       &kp GRAVE
+&trans         &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_RIGHT &trans          &trans          &trans   &mac_n_tilde    &kp LEFT        &kp DOWN        &kp RIGHT       &kp PG_DN       &trans
+&trans         &trans          &trans          &trans          &trans          &trans          &trans   &trans          &trans          &trans          &trans          &trans
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -157,20 +159,20 @@
         // LAYER 2 — SISTEMA (toggle — premi L2 per att./disatt.)
         // ══════════════════════════════════════════════════════════
         //
-        // PSCR  F1   F2   F3   F4   F5  │  F6   F7   F8   F9  F10  F11
-        // BTCLR BT0  BT1  BT2  BT3  BT4 │   ─    7    8    9   +   F12
-        // CAPS  TOG BRI+ EFF▶  ─    ─   │   ─    4    5    6   -    ─
-        // RESET HUE BRI- ◀EFF  ─   OFF  │   0    1    2    3   ─   SHF
-        //  GUI  ALT CTRL  L1   SPC  │  ENT  ●L2   0  BSPC DEL
+        // PSCR  F1   F2   F3   F4   F5  [─]  F6   F7   F8   F9  F10  F11
+        // BTCLR BT0  BT1  BT2  BT3  BT4 [─]   ─    7    8    9   +   F12
+        // CAPS  TOG BRI+ EFF▶  ─    ─   [─]   ─    4    5    6   -    ─
+        // RESET HUE BRI- ◀EFF  ─   OFF  [─]   0    1    2    3   ─   SHF
+        //  GUI  ALT CTRL  L1   SPC [─] [─]  ENT  ●L2   0  BSPC DEL
         //
         layer2 {
             display-name = "SISTEMA";
             bindings = <
-&kp PSCRN      &kp F1         &kp F2         &kp F3         &kp F4         &kp F5         &trans   &kp F6         &kp F7         &kp F8         &kp F9         &kp F10        &kp F11
-&bt BT_CLR     &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4   &trans   &trans         &kp KP_N7      &kp KP_N8      &kp KP_N9      &kp KP_PLUS    &kp F12
-&trans         &rgb_ug RGB_TOG &rgb_ug RGB_BRI &rgb_ug RGB_EFF &trans        &trans         &trans   &trans         &kp KP_N4      &kp KP_N5      &kp KP_N6      &kp KP_MINUS   &trans
-&sys_reset     &rgb_ug RGB_HUI &rgb_ug RGB_BRD &rgb_ug RGB_EFR &trans        &soft_off      &trans   &kp KP_N0      &kp KP_N1      &kp KP_N2      &kp KP_N3      &trans         &kp RSHFT
-&trans         &trans         &trans         &mo 1          &kp SPACE      &trans         &trans   &kp RET        &tog 2         &kp KP_N0      &kp BSPC       &kp DEL
+&kp PSCRN      &kp F1          &kp F2          &kp F3          &kp F4          &kp F5          &trans   &kp F6          &kp F7          &kp F8          &kp F9          &kp F10         &kp F11
+&bt BT_CLR     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4    &trans   &trans          &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_PLUS     &kp F12
+&trans         &rgb_ug RGB_TOG &rgb_ug RGB_BRI &rgb_ug RGB_EFF &trans          &trans          &trans   &trans          &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_MINUS    &trans
+&sys_reset     &rgb_ug RGB_HUI &rgb_ug RGB_BRD &rgb_ug RGB_EFR &trans          &soft_off       &trans   &kp KP_N0       &kp KP_N1       &kp KP_N2       &kp KP_N3       &trans          &kp RSHFT
+&trans         &trans          &trans          &mo 1           &kp SPACE       &trans          &trans   &kp RET         &tog 2          &kp KP_N0       &kp BSPC        &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
