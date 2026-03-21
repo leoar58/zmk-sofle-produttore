@@ -84,7 +84,7 @@ layers:
   - $$mdi:pan-up$$
   - '&mkp MB4'
   - {t: '$$mdi:transfer$$', type: trans}
-  - '&mac_eacc'
+  - '&mac_e_acc'
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '[', s: '{'}
   - {t: \, s: '|'}
@@ -112,7 +112,7 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
-  - '&mac_ntilde'
+  - '&mac_n_tilde'
   - $$mdi:arrow-left-bold$$
   - $$mdi:arrow-down-bold$$
   - $$mdi:arrow-right-bold$$
