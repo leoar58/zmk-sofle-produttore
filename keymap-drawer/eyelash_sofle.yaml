@@ -59,12 +59,12 @@ layers:
   - $$mdi:apple-keyboard-control$$
   - FUNZIONI
   - $$mdi:keyboard-space$$
+  - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - {t: SISTEMA, h: toggle}
   - $$mdi:apple-keyboard-control$$
   - {t: '$$mdi:backspace$$', type: backspace}
   - $$mdi:backspace-reverse-outline$$
-  - {t: '$$mdi:transfer$$', type: trans}
   FUNZIONI:
   - {t: '`', s: '~'}
   - $$mdi:volume-low$$
@@ -188,12 +188,12 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - FUNZIONI
   - $$mdi:keyboard-space$$
+  - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - {t: SISTEMA, h: toggle}
   - KP 0
   - {t: '$$mdi:backspace$$', type: backspace}
   - $$mdi:backspace-reverse-outline$$
-  - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
 combos:
 - p: [14, 28, 40]
