@@ -16,7 +16,8 @@
 // ║                                                                  ║
 // ║  Layer 0 — BASE        (sempre attivo)   → LED spenti           ║
 // ║  Layer 1 — FUNZIONI    (tieni L1)        → breathe azzurro      ║
-// ║  Layer 2 — SISTEMA     (toggle L2)       → breathe rosso        ║
+// ║  Layer 2 — SISTEMA     (toggle tap L2)   → breathe rosso        ║
+// ║  Layer 3 — GAMING      (toggle hold L2)                         ║
 // ╚══════════════════════════════════════════════════════════════════╝
 //
 // Tasti pollice sx (interno→esterno): L1, SPACE, CTRL, ALT, GUI
@@ -29,6 +30,9 @@
 // Layer 1 navigazione:
 //   Y=PG UP  U=Home  I=↑  O=End
 //   H=PG DN  J=←    K=↓  L=→
+//
+// Tasto L2:  tap (<400ms) = tog 2 (sistema)
+//            hold (>400ms) = tog 3 (gaming)
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
@@ -48,6 +52,17 @@
 &soft_off { hold-time-ms = <2000>; };
 
 / {
+    behaviors {
+        // Tap = tog 2 (sistema), Hold = tog 3 (gaming)
+        lt2: layer_toggle_2_3 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <400>;
+            flavor = "tap-preferred";
+            bindings = <&tog>, <&tog>;
+        };
+    };
+
     combos {
         compatible = "zmk,combos";
         softoff_combo {
@@ -69,7 +84,7 @@
 &kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
 &kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp APOS
 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp B     &trans   &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &mo 1     &trans   &tog 2   &kp RET   &kp RCTRL &kp BSPC  &kp DEL
+&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &mo 1     &lt2 3 2 &kp RET   &kp RCTRL &kp BSPC  &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -101,7 +116,24 @@
 &bt BT_CLR     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3     &bt BT_SEL 4    &trans   &kp KP_MULTIPLY &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_PLUS     &kp F12
 &trans         &rgb_ug RGB_TOG &rgb_ug RGB_BRI &rgb_ug RGB_EFF &trans           &trans          &trans   &kp KP_DIVIDE   &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_MINUS    &trans
 &sys_reset     &rgb_ug RGB_HUI &rgb_ug RGB_BRD &rgb_ug RGB_EFR &trans           &soft_off       &trans   &kp KP_N0       &kp KP_N1       &kp KP_N2       &kp KP_N3       &trans          &kp RSHFT
-&trans         &trans          &trans          &mo 1           &kp SPACE        &trans          &trans   &tog 2          &kp RET         &kp KP_N0       &kp BSPC        &kp DEL
+&trans         &trans          &trans          &mo 1           &kp SPACE        &trans          &lt2 3 2 &kp RET         &kp KP_N0       &kp BSPC        &kp DEL
+            >;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        // ══════════════════════════════════════════════════════════
+        // LAYER 3 — GAMING  (toggle hold L2, disattiva con hold L2)
+        // Sx: QWERTY con TAB↔CAPS, B→M, CTRL↔SPACE
+        // Dx: navigazione dal layer 1
+        // ══════════════════════════════════════════════════════════
+        layer3 {
+            display-name = "GAMING";
+            bindings = <
+&kp ESC    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &trans   &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp BSPC
+&kp CAPS   &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp PG_UP &kp HOME  &kp UP    &kp END   &kp LS(EQUAL) &kp MINUS
+&kp TAB    &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp PG_DN &kp LEFT  &kp DOWN  &kp RIGHT &kp GRAVE &trans
+&kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp M     &trans   &trans    &trans    &trans    &trans    &trans    &kp RSHFT
+&trans     &kp LGUI  &kp LALT  &kp SPACE &kp LCTRL &mo 1     &lt2 3 2 &kp RET   &kp RCTRL &kp BSPC  &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
