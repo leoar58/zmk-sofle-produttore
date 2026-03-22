@@ -85,7 +85,7 @@
 &trans         &trans          &trans          &mkp MB4        &msc SCRL_UP    &mkp MB5        &trans   &kp PG_UP       &kp HOME        &kp UP          &kp END         &kp LS(EQUAL)   &kp MINUS
 &trans         &kp LG(TAB)     &trans          &mkp MB2        &mkp MB3        &mkp MB1        &trans   &kp PG_DN       &kp LEFT        &kp DOWN        &kp RIGHT       &kp GRAVE       &trans
 &trans         &trans          &trans          &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_RIGHT &trans   &trans          &trans          &trans          &trans          &trans          &trans          &trans
-&trans         &trans          &trans          &trans          &trans          &trans          &trans   &trans          &trans          &trans          &trans          &trans
+&trans         &kp GRAVE       &trans          &trans          &trans          &trans          &trans   &trans          &trans          &trans          &trans          &trans
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
