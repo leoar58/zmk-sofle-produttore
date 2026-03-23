@@ -72,7 +72,7 @@
             #binding-cells = <0>;
             bindings
                 = <&macro_tap &tog 2>
-                , <&macro_tap &rgb_ug RGB_TOG>
+                , <&macro_tap &rgb_ug RGB_OFF>
                 ;
         };
     };
