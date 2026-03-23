@@ -62,8 +62,8 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - '&td_l2'
   - {t: '$$mdi:keyboard-return$$', type: enter}
-  - {t: '$$mdi:backspace$$', type: backspace}
   - $$mdi:apple-keyboard-control$$
+  - {t: '$$mdi:backspace$$', type: backspace}
   - $$mdi:backspace-reverse-outline$$
   FUNZIONI:
   - {t: '`', s: '~'}
@@ -192,8 +192,8 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - '&td_l2'
   - {t: '$$mdi:keyboard-return$$', type: enter}
-  - {t: '$$mdi:backspace$$', type: backspace}
   - KP 0
+  - {t: '$$mdi:backspace$$', type: backspace}
   - $$mdi:backspace-reverse-outline$$
   GAMING:
   - $$mdi:keyboard-esc$$
@@ -257,8 +257,8 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - '&td_l2'
   - {t: '$$mdi:keyboard-return$$', type: enter}
-  - {t: '$$mdi:backspace$$', type: backspace}
   - $$mdi:apple-keyboard-control$$
+  - {t: '$$mdi:backspace$$', type: backspace}
   - $$mdi:backspace-reverse-outline$$
 combos:
 - p: [14, 28, 40]
