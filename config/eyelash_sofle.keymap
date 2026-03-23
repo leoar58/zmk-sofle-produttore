@@ -130,10 +130,10 @@
             display-name = "GAMING";
             bindings = <
 &kp ESC    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &trans   &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp BSPC
-&kp CAPS   &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp PG_UP &kp HOME  &kp UP    &kp END   &kp LS(EQUAL) &kp MINUS
-&kp TAB    &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp PG_DN &kp LEFT  &kp DOWN  &kp RIGHT &kp GRAVE &trans
+&kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp PG_UP &kp HOME  &kp UP    &kp END   &kp LS(EQUAL) &kp MINUS
+&kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp PG_DN &kp LEFT  &kp DOWN  &kp RIGHT &kp GRAVE &trans
 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp M     &trans   &trans    &trans    &trans    &trans    &trans    &kp RSHFT
-&trans     &kp LGUI  &kp LALT  &kp SPACE &kp LCTRL &mo 1     &trans   &lt2 3 2  &kp RET   &kp RCTRL &kp BSPC  &kp DEL
+&trans     &kp LGUI  &kp LCTRL &kp SPACE &kp LALT  &mo 1     &trans   &lt2 3 2  &kp RET   &kp RCTRL &kp BSPC  &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
