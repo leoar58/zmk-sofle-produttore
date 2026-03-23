@@ -55,13 +55,17 @@
 
 / {
     macros {
-        // Attiva layer 2 + effetto arcobaleno
-        // EFF_START=4 nel .conf imposta rainbow come effetto default
+        // Attiva layer 2 + effetto arcobaleno a luminosità minima
         l2_on: l2_on {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
                 = <&macro_tap &rgb_ug RGB_ON>
+                , <&macro_tap &rgb_ug RGB_BRD>
+                , <&macro_tap &rgb_ug RGB_BRD>
+                , <&macro_tap &rgb_ug RGB_BRD>
+                , <&macro_tap &rgb_ug RGB_BRD>
+                , <&macro_tap &rgb_ug RGB_BRD>
                 , <&macro_tap &tog 2>
                 ;
         };
@@ -72,7 +76,7 @@
             #binding-cells = <0>;
             bindings
                 = <&macro_tap &tog 2>
-                , <&macro_tap &rgb_ug RGB_OFF>
+                , <&macro_tap &rgb_ug RGB_TOG>
                 ;
         };
     };
@@ -116,7 +120,7 @@
 &kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
 &kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp APOS
 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp B     &trans   &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &td_l1    &trans   &td_l2    &kp RET   &kp BSPC   &kp RCTRL &kp DEL
+&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &td_l1   &trans   &td_l2    &kp RET   &kp RCTRL &kp BSPC  &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -146,7 +150,7 @@
 &bt BT_CLR     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3     &bt BT_SEL 4    &trans   &kp KP_MULTIPLY  &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_PLUS     &kp F12
 &trans         &rgb_ug RGB_TOG &rgb_ug RGB_BRI &rgb_ug RGB_EFF &trans           &trans          &trans   &kp KP_DIVIDE    &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_MINUS    &trans
 &sys_reset     &rgb_ug RGB_HUI &rgb_ug RGB_BRD &rgb_ug RGB_EFR &trans           &soft_off       &trans   &kp KP_N0        &kp KP_N1       &kp KP_N2       &kp KP_N3       &trans          &kp RSHFT
-&trans         &trans          &trans          &trans          &kp SPACE        &td_l1         &trans   &td_l2           &kp RET          &kp BSPC        &kp KP_N0       &kp DEL
+&trans         &trans          &trans          &trans          &kp SPACE        &td_l1         &trans   &td_l2           &kp RET         &kp KP_N0       &kp BSPC        &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -163,7 +167,7 @@
 &kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp PG_UP &kp HOME  &kp UP    &kp END   &kp LS(EQUAL) &kp MINUS
 &kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp PG_DN &kp LEFT  &kp DOWN  &kp RIGHT &kp GRAVE &trans
 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp M     &trans   &trans    &trans    &trans    &trans    &trans    &kp RSHFT
-&trans     &kp LGUI  &kp LCTRL &kp SPACE &kp LALT  &td_l1    &trans   &td_l2    &kp RET   &kp BSPC  &kp RCTRL &kp DEL
+&trans     &kp LGUI  &kp LCTRL &kp SPACE &kp LALT  &td_l1   &trans   &td_l2    &kp RET   &kp RCTRL &kp BSPC  &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
