@@ -55,17 +55,13 @@
 
 / {
     macros {
-        // Attiva layer 2 + effetto arcobaleno a luminosità minima
+        // Attiva layer 2 + effetto arcobaleno
+        // La luminosità è controllata da BRT_START nel .conf
         l2_on: l2_on {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
                 = <&macro_tap &rgb_ug RGB_ON>
-                , <&macro_tap &rgb_ug RGB_BRD>
-                , <&macro_tap &rgb_ug RGB_BRD>
-                , <&macro_tap &rgb_ug RGB_BRD>
-                , <&macro_tap &rgb_ug RGB_BRD>
-                , <&macro_tap &rgb_ug RGB_BRD>
                 , <&macro_tap &tog 2>
                 ;
         };
