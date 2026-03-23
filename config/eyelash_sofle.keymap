@@ -15,9 +15,9 @@
 // ║  Layout: US International (Windows)                             ║
 // ║                                                                  ║
 // ║  Layer 0 — BASE        (sempre attivo)   → LED spenti           ║
-// ║  Layer 1 — FUNZIONI    (tieni L1)        → breathe azzurro      ║
-// ║  Layer 2 — SISTEMA     (toggle tap L2)   → breathe rosso        ║
-// ║  Layer 3 — GAMING      (toggle hold L2)                         ║
+// ║  Layer 1 — FUNZIONI    (tap L1)                                 ║
+// ║  Layer 2 — SISTEMA     (tap L2)          → breathe rosso min    ║
+// ║  Layer 3 — GAMING      (hold L1 >400ms)                         ║
 // ╚══════════════════════════════════════════════════════════════════╝
 //
 // Tasti pollice sx (interno→esterno): L1, SPACE, CTRL, ALT, GUI
@@ -31,8 +31,9 @@
 //   Y=PG UP  U=Home  I=↑  O=End
 //   H=PG DN  J=←    K=↓  L=→
 //
-// Tasto L2:  tap (<400ms) = tog 2 (sistema)
-//            hold (>400ms) = tog 3 (gaming)
+// Tasto L1:  tap (tieni) = layer 1 momentaneo
+//            hold >400ms = tog 3 (gaming on/off)
+// Tasto L2:  tap = tog 2 + breathe rosso on/off
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
@@ -52,14 +53,46 @@
 &soft_off { hold-time-ms = <2000>; };
 
 / {
+    macros {
+        // Attiva layer 2 + breathe rosso minimo (HSB 0,100,5)
+        l2_on: l2_on {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &rgb_ug RGB_COLOR_HSB(0,100,5)>
+                , <&macro_tap &rgb_ug RGB_EFF>
+                , <&macro_tap &rgb_ug RGB_ON>
+                , <&macro_tap &tog 2>
+                ;
+        };
+
+        // Disattiva layer 2 + spegne LED
+        l2_off: l2_off {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &tog 2>
+                , <&macro_tap &rgb_ug RGB_OFF>
+                ;
+        };
+    };
+
     behaviors {
-        // Tap = tog 2 (sistema), Hold = tog 3 (gaming)
-        lt2: layer_toggle_2_3 {
+        // L1: tap = mo 1 (momentaneo), hold = tog 3 (gaming)
+        lt1: layer_tap_1 {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             tapping-term-ms = <400>;
-            flavor = "tap-preferred";
-            bindings = <&tog>, <&tog>;
+            flavor = "hold-preferred";
+            bindings = <&tog>, <&mo>;
+        };
+
+        // L2: tap singolo = l2_on, doppio tap = l2_off
+        td_l2: tap_dance_l2 {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <300>;
+            bindings = <&l2_on>, <&l2_off>;
         };
     };
 
@@ -75,7 +108,7 @@
         compatible = "zmk,keymap";
 
         // ══════════════════════════════════════════════════════════
-        // LAYER 0 — BASE  →  LED spenti all'attivazione
+        // LAYER 0 — BASE
         // ══════════════════════════════════════════════════════════
         layer0 {
             display-name = "BASE";
@@ -84,14 +117,13 @@
 &kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
 &kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp APOS
 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp B     &trans   &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &mo 1     &trans   &lt2 3 2  &kp RET   &kp RCTRL &kp BSPC  &kp DEL
+&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &lt1 3 1  &trans   &td_l2    &kp RET   &kp RCTRL &kp BSPC  &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         // ══════════════════════════════════════════════════════════
-        // LAYER 1 — FUNZIONI  →  breathe azzurro (HSB 180,100,5)
-        // Hue 180 = azzurro  |  Sat 100%  |  Bri 5% (minimo)
+        // LAYER 1 — FUNZIONI (tap L1)
         // ══════════════════════════════════════════════════════════
         layer1 {
             display-name = "FUNZIONI";
@@ -106,8 +138,7 @@
         };
 
         // ══════════════════════════════════════════════════════════
-        // LAYER 2 — SISTEMA  →  breathe rosso (HSB 0,100,5)
-        // Hue 0 = rosso  |  Sat 100%  |  Bri 5% (minimo)
+        // LAYER 2 — SISTEMA (tap L2) → breathe rosso minimo
         // ══════════════════════════════════════════════════════════
         layer2 {
             display-name = "SISTEMA";
@@ -116,13 +147,13 @@
 &bt BT_CLR     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3     &bt BT_SEL 4    &trans   &kp KP_MULTIPLY  &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_PLUS     &kp F12
 &trans         &rgb_ug RGB_TOG &rgb_ug RGB_BRI &rgb_ug RGB_EFF &trans           &trans          &trans   &kp KP_DIVIDE    &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_MINUS    &trans
 &sys_reset     &rgb_ug RGB_HUI &rgb_ug RGB_BRD &rgb_ug RGB_EFR &trans           &soft_off       &trans   &kp KP_N0        &kp KP_N1       &kp KP_N2       &kp KP_N3       &trans          &kp RSHFT
- &trans        &trans          &trans          &trans          &kp SPACE        &mo 1           &trans   &lt2 3 2         &kp RET         &kp KP_N0       &kp BSPC        &kp DEL
+&trans         &trans          &trans          &trans          &kp SPACE        &lt1 3 1        &trans   &td_l2           &kp RET         &kp KP_N0       &kp BSPC        &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         // ══════════════════════════════════════════════════════════
-        // LAYER 3 — GAMING  (toggle hold L2, disattiva con hold L2)
+        // LAYER 3 — GAMING (hold L1 >400ms, disattiva con hold L1)
         // Sx: QWERTY con TAB↔CAPS, B→M, CTRL↔SPACE
         // Dx: navigazione dal layer 1
         // ══════════════════════════════════════════════════════════
@@ -133,15 +164,9 @@
 &kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp PG_UP &kp HOME  &kp UP    &kp END   &kp LS(EQUAL) &kp MINUS
 &kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp PG_DN &kp LEFT  &kp DOWN  &kp RIGHT &kp GRAVE &trans
 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp M     &trans   &trans    &trans    &trans    &trans    &trans    &kp RSHFT
-&trans     &kp LGUI  &kp LCTRL &kp SPACE &kp LALT  &mo 1     &trans   &lt2 3 2  &kp RET   &kp RCTRL &kp BSPC  &kp DEL
+&trans     &kp LGUI  &kp LCTRL &kp SPACE &kp LALT  &lt1 3 1  &trans   &td_l2    &kp RET   &kp RCTRL &kp BSPC  &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
     };
 };
-
-// Nota: per i LED breathe per layer, aggiungi nel file
-// config/eyelash_sofle.conf:
-//
-// CONFIG_ZMK_RGB_UNDERGLOW_EFF_START=1  (1 = breathe)
-// CONFIG_ZMK_RGB_UNDERGLOW_BRT_START=5  (5% luminosità minima)
