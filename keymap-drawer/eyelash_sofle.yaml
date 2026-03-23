@@ -58,9 +58,9 @@ layers:
   - $$mdi:apple-keyboard-option$$
   - $$mdi:apple-keyboard-control$$
   - $$mdi:keyboard-space$$
-  - FUNZIONI
+  - {t: FUNZIONI, h: GAMING}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {t: SISTEMA, h: GAMING}
+  - '&td_l2'
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - $$mdi:apple-keyboard-control$$
   - {t: '$$mdi:backspace$$', type: backspace}
@@ -188,9 +188,9 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - $$mdi:keyboard-space$$
-  - FUNZIONI
+  - {t: FUNZIONI, h: GAMING}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {t: SISTEMA, h: GAMING}
+  - '&td_l2'
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - KP 0
   - {t: '$$mdi:backspace$$', type: backspace}
@@ -253,9 +253,9 @@ layers:
   - $$mdi:apple-keyboard-control$$
   - $$mdi:keyboard-space$$
   - $$mdi:apple-keyboard-option$$
-  - FUNZIONI
+  - {t: FUNZIONI, h: GAMING}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {t: SISTEMA, h: GAMING}
+  - '&td_l2'
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - $$mdi:apple-keyboard-control$$
   - {t: '$$mdi:backspace$$', type: backspace}
