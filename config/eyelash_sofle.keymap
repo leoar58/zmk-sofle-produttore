@@ -67,12 +67,14 @@
         };
 
         // Disattiva layer 2 + spegne LED
+        // RGB_ON garantisce che i LED siano accesi, poi RGB_TOG li spegne
         l2_off: l2_off {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
                 = <&macro_tap &tog 2>
-                , <&macro_tap &rgb_ug RGB_OFF>
+                , <&macro_tap &rgb_ug RGB_ON>
+                , <&macro_tap &rgb_ug RGB_TOG>
                 ;
         };
     };
