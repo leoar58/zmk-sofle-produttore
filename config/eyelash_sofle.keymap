@@ -55,26 +55,23 @@
 
 / {
     macros {
-        // Attiva layer 2 + effetto arcobaleno
-        // La luminosità è controllata da BRT_START nel .conf
+        // Attiva layer 2 + accende LED (toggle ON)
         l2_on: l2_on {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
-                = <&macro_tap &rgb_ug RGB_ON>
+                = <&macro_tap &rgb_ug RGB_TOG>
                 , <&macro_tap &tog 2>
                 ;
         };
 
-        // Disattiva layer 2 + spegne LED
-        // RGB_ON garantisce che i LED siano accesi, poi RGB_TOG li spegne
+        // Disattiva layer 2 + spegne LED (toggle OFF)
         l2_off: l2_off {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings
-                = <&macro_tap &tog 2>
-                , <&macro_tap &rgb_ug RGB_ON>
-                , <&macro_tap &rgb_ug RGB_TOG>
+                = <&macro_tap &rgb_ug RGB_TOG>
+                , <&macro_tap &tog 2>
                 ;
         };
     };
