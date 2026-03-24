@@ -14,26 +14,28 @@
 // ║  Eyelash Sofle — Keymap personalizzato                          ║
 // ║  Layout: US International (Windows)                             ║
 // ║                                                                  ║
-// ║  Layer 0 — BASE        (sempre attivo)   → LED spenti           ║
-// ║  Layer 1 — FUNZIONI    (tap L1)                                 ║
-// ║  Layer 2 — SISTEMA     (tap L2)          → breathe rosso min    ║
-// ║  Layer 3 — GAMING      (hold L1 >400ms)                         ║
+// ║  Layer 0 — BASE        (sempre attivo)                          ║
+// ║  Layer 1 — FUNZIONI    (tieni L1)                               ║
+// ║  Layer 2 — SISTEMA     (tap L2)   → LED arcobaleno              ║
+// ║  Layer 3 — GAMING      (triplo tap L1)                          ║
 // ╚══════════════════════════════════════════════════════════════════╝
 //
 // Tasti pollice sx (interno→esterno): L1, SPACE, CTRL, ALT, GUI
-// Tasti pollice dx (interno→esterno): L2, ENTER, RCTRL, BSPC, DEL
+// Tasti pollice dx (interno→esterno): L2, ENTER, BSPC, INS, DEL
 //
 // Accenti con US International (dead keys nativi):
 //   ` poi a/e/i/o/u → à/è/ì/ò/ù  |  ' poi e → é  |  ~ poi n → ñ
-//   Dead key ` = L1+ESC  |  Dead key ~ = L1+Shift+ESC
+//   Dead key ` = TAB (layer 0)  |  Dead key ~ = L1+Shift+ESC
+//
+// Layer 0: ESC = tap→TAB, hold→ESC  |  TAB = dead grave `
 //
 // Layer 1 navigazione:
 //   Y=PG UP  U=Home  I=↑  O=End
 //   H=PG DN  J=←    K=↓  L=→
 //
 // Tasto L1:  tieni = layer 1 momentaneo
-//            triplo tap veloce = tog 3 (gaming on/off)
-// Tasto L2:  tap singolo = tog 2 + breathe rosso on
+//            triplo tap = tog 3 (gaming on/off)
+// Tasto L2:  tap = tog 2 + LED arcobaleno on
 //            doppio tap = tog 2 + LED off
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
@@ -55,7 +57,7 @@
 
 / {
     macros {
-        // Attiva layer 2 + accende LED (toggle ON)
+        // Attiva layer 2 + accende LED arcobaleno
         l2_on: l2_on {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -65,7 +67,7 @@
                 ;
         };
 
-        // Disattiva layer 2 + spegne LED (toggle OFF)
+        // Disattiva layer 2 + spegne LED
         l2_off: l2_off {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -77,7 +79,16 @@
     };
 
     behaviors {
-        // L1: tap (tieni) = mo 1 momentaneo, triplo tap = tog 3 gaming
+        // ESC: tap = TAB, hold = ESC
+        ht_esc: hold_tap_esc {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+
+        // L1: tieni = mo 1 momentaneo, triplo tap = tog 3 gaming
         td_l1: tap_dance_l1 {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
@@ -107,21 +118,26 @@
 
         // ══════════════════════════════════════════════════════════
         // LAYER 0 — BASE
+        // Modifiche rispetto a prima:
+        // - ESC → hold-tap (tap=TAB, hold=ESC)
+        // - TAB → dead grave `
+        // - BSPC in alto dx → MINUS
+        // - Pollice dx: L2, SPACE, BSPC, INSERT, DEL
         // ══════════════════════════════════════════════════════════
         layer0 {
             display-name = "BASE";
             bindings = <
-&kp ESC    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &trans   &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp BSPC
-&kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
-&kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp APOS
-&kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp B     &trans   &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-&trans     &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &td_l1   &trans   &td_l2    &kp RET   &kp RCTRL &kp BSPC  &kp DEL
+&ht_esc ESC TAB  &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &trans   &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS
+&kp GRAVE        &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSLH
+&kp CAPS         &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp APOS
+&kp LSHFT        &kp Z     &kp X     &kp C     &kp V     &kp B     &trans   &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
+&trans           &kp LGUI  &kp LALT  &kp LCTRL &kp SPACE &td_l1    &trans   &td_l2    &kp RET   &kp BSPC  &kp INS   &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         // ══════════════════════════════════════════════════════════
-        // LAYER 1 — FUNZIONI (tap L1)
+        // LAYER 1 — FUNZIONI (tieni L1)
         // ══════════════════════════════════════════════════════════
         layer1 {
             display-name = "FUNZIONI";
@@ -136,7 +152,8 @@
         };
 
         // ══════════════════════════════════════════════════════════
-        // LAYER 2 — SISTEMA (tap L2) → breathe rosso minimo
+        // LAYER 2 — SISTEMA (tap L2) → LED arcobaleno
+        // Pollice dx aggiornato: L2, SPACE, BSPC, INSERT, DEL
         // ══════════════════════════════════════════════════════════
         layer2 {
             display-name = "SISTEMA";
@@ -145,24 +162,24 @@
 &bt BT_CLR     &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3     &bt BT_SEL 4    &trans   &kp KP_MULTIPLY  &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_PLUS     &kp F12
 &trans         &rgb_ug RGB_TOG &rgb_ug RGB_BRI &rgb_ug RGB_EFF &trans           &trans          &trans   &kp KP_DIVIDE    &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_MINUS    &trans
 &sys_reset     &rgb_ug RGB_HUI &rgb_ug RGB_BRD &rgb_ug RGB_EFR &trans           &soft_off       &trans   &kp KP_N0        &kp KP_N1       &kp KP_N2       &kp KP_N3       &trans          &kp RSHFT
-&trans         &trans          &trans          &trans          &kp SPACE        &td_l1         &trans   &td_l2           &kp RET         &kp KP_N0       &kp BSPC        &kp DEL
+&trans         &trans          &trans          &trans          &kp SPACE        &td_l1          &trans   &td_l2           &kp RET         &kp KP_N0       &kp INS         &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         // ══════════════════════════════════════════════════════════
-        // LAYER 3 — GAMING (hold L1 >400ms, disattiva con hold L1)
+        // LAYER 3 — GAMING (triplo tap L1)
         // Sx: QWERTY con TAB↔CAPS, B→M, CTRL↔SPACE
         // Dx: navigazione dal layer 1
         // ══════════════════════════════════════════════════════════
         layer3 {
             display-name = "GAMING";
             bindings = <
-&kp ESC    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &trans   &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp BSPC
-&kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp PG_UP &kp HOME  &kp UP    &kp END   &kp LS(EQUAL) &kp MINUS
-&kp CAPS   &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp PG_DN &kp LEFT  &kp DOWN  &kp RIGHT &kp GRAVE &trans
+&kp ESC    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &trans   &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS
+&kp GRAVE  &kp Q     &kp W     &kp E     &kp R     &kp T     &trans   &kp PG_UP &kp HOME  &kp UP    &kp END   &kp LS(EQUAL) &kp MINUS
+&kp TAB    &kp A     &kp S     &kp D     &kp F     &kp G     &trans   &kp PG_DN &kp LEFT  &kp DOWN  &kp RIGHT &kp GRAVE &trans
 &kp LSHFT  &kp Z     &kp X     &kp C     &kp V     &kp M     &trans   &trans    &trans    &trans    &trans    &trans    &kp RSHFT
-&trans     &kp LGUI  &kp LCTRL &kp SPACE &kp LALT  &td_l1   &trans   &td_l2    &kp RET   &kp RCTRL &kp BSPC  &kp DEL
+&trans     &kp LGUI  &kp LCTRL &kp SPACE &kp LALT  &td_l1    &trans   &td_l2    &kp RET   &kp BSPC  &kp INS   &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
